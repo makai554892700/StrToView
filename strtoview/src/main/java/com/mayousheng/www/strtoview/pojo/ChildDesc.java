@@ -15,6 +15,7 @@ public class ChildDesc extends BasePoJo {
     public static final int TYPE_FRAME = 4;
     public static final int TYPE_IMG = 5;
     public static final int TYPE_BUTTON = 6;
+    public static final int TYPE_VIDEO = 7;
 
     @FieldDesc(key = "type")
     public int type;

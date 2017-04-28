@@ -13,6 +13,7 @@ import com.mayousheng.www.strtoview.pojo.ChildDesc;
 import com.mayousheng.www.strtoview.pojo.ImageViewDesc;
 import com.mayousheng.www.strtoview.pojo.LayoutDesc;
 import com.mayousheng.www.strtoview.pojo.TextViewDesc;
+import com.mayousheng.www.strtoview.pojo.VideoDesc;
 
 /**
  * Created by marking on 2017/4/27.
@@ -131,6 +132,10 @@ public class LayoutUtils {
             case ChildDesc.TYPE_BUTTON:
                 ButtonDesc buttonDesc = new ButtonDesc(child.str);
                 result = ButtonUtils.getInstance().getButton(context, buttonDesc);
+                break;
+            case ChildDesc.TYPE_VIDEO:
+                VideoDesc videoDesc = new VideoDesc(child.str);
+                result = VideoUtils.getInstance().getVideoView(context, videoDesc);
                 break;
         }
         return result;
