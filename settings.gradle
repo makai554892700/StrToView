@@ -1,1 +1,1 @@
-include ':app', ':basepojo', ':imgcache', ':strtoview'
+include ':app', ':basepojo', ':imgcache', ':strtoview', ':filecache'
