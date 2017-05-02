@@ -29,13 +29,16 @@ public class LayoutDesc extends BasePoJo {
     public String color;
     @FieldDesc(key = "children", arrayType = ChildDesc.class)
     public ArrayList<ChildDesc> children;
+    @FieldDesc(key = "onClick")
+    public OnClickDesc onClick;
 
     public LayoutDesc(String jsonStr) {
         super(jsonStr);
     }
 
     public LayoutDesc(int id,int type, int gravity, int orientation, String color
-            , LayoutParamsDesc layoutParamsDesc, ArrayList<ChildDesc> childDescs) {
+            , LayoutParamsDesc layoutParamsDesc, ArrayList<ChildDesc> childDescs
+            , OnClickDesc onClick) {
         super(null);
         this.id = id;
         this.type = type;
@@ -44,5 +47,6 @@ public class LayoutDesc extends BasePoJo {
         this.params = layoutParamsDesc;
         this.color = color;
         this.children = childDescs;
+        this.onClick = onClick;
     }
 }

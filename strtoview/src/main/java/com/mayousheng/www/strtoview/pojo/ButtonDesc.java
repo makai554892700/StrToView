@@ -19,17 +19,21 @@ public class ButtonDesc extends BasePoJo {
     public LayoutParamsDesc params;
     @FieldDesc(key = "padding")
     public PaddingDesc padding;
+    @FieldDesc(key = "onClick")
+    public OnClickDesc onClick;
 
     public ButtonDesc(String jsonStr) {
         super(jsonStr);
     }
 
-    public ButtonDesc(int id,String text, int gravity, LayoutParamsDesc params, PaddingDesc padding) {
+    public ButtonDesc(int id, String text, int gravity, LayoutParamsDesc params
+            , PaddingDesc padding, OnClickDesc onClick) {
         super(null);
         this.id = id;
         this.text = text;
         this.gravity = gravity;
         this.params = params;
         this.padding = padding;
+        this.onClick = onClick;
     }
 }

@@ -29,13 +29,16 @@ public class TextViewDesc extends BasePoJo {
     public PaddingDesc padding;
     @FieldDesc(key = "ellipsize")
     public String ellipsize;//END MIDDLE START
+    @FieldDesc(key = "onClick")
+    public OnClickDesc onClick;
 
     public TextViewDesc(String jsonStr) {
         super(jsonStr);
     }
 
     public TextViewDesc(int id, String text, String color, float size, String backColor
-            , int maxLine, int gravity, String ellipsize, LayoutParamsDesc params, PaddingDesc padding) {
+            , int maxLine, int gravity, String ellipsize, LayoutParamsDesc params
+            , OnClickDesc onClick, PaddingDesc padding) {
         super(null);
         this.id = id;
         this.text = text;
@@ -47,5 +50,6 @@ public class TextViewDesc extends BasePoJo {
         this.maxLine = maxLine;
         this.padding = padding;
         this.ellipsize = ellipsize;
+        this.onClick = onClick;
     }
 }

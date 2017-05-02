@@ -17,17 +17,21 @@ public class VideoDesc extends BasePoJo {
     public PaddingDesc padding;
     @FieldDesc(key = "params")
     public LayoutParamsDesc params;
+    @FieldDesc(key = "onClick")
+    public OnClickDesc onClick;
 
     public VideoDesc(String jsonStr) {
         super(jsonStr);
     }
 
 
-    public VideoDesc(int id, String url, PaddingDesc padding, LayoutParamsDesc params) {
+    public VideoDesc(int id, String url, PaddingDesc padding, LayoutParamsDesc params
+            , OnClickDesc onClick) {
         super(null);
         this.id = id;
         this.url = url;
         this.padding = padding;
         this.params = params;
+        this.onClick = onClick;
     }
 }

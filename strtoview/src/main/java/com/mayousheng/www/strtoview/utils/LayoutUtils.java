@@ -57,6 +57,9 @@ public class LayoutUtils {
                         }
                     }
                 }
+                if (layoutDesc.onClick != null) {
+                    frameLayout.setOnTouchListener(OnClickUtils.getInstance().getOnClickListener(context, layoutDesc.onClick));
+                }
                 return frameLayout;
             case LayoutDesc.TYPE_RELATIVE:
                 RelativeLayout relativeLayout = new RelativeLayout(context);
@@ -79,6 +82,9 @@ public class LayoutUtils {
                             relativeLayout.addView(childView);
                         }
                     }
+                }
+                if (layoutDesc.onClick != null) {
+                    relativeLayout.setOnTouchListener(OnClickUtils.getInstance().getOnClickListener(context, layoutDesc.onClick));
                 }
                 return relativeLayout;
             case LayoutDesc.TYPE_LINEAR:
@@ -103,6 +109,9 @@ public class LayoutUtils {
                             linearLayout.addView(childView);
                         }
                     }
+                }
+                if (layoutDesc.onClick != null) {
+                    linearLayout.setOnTouchListener(OnClickUtils.getInstance().getOnClickListener(context, layoutDesc.onClick));
                 }
                 return linearLayout;
         }

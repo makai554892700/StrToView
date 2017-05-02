@@ -19,18 +19,21 @@ public class ImageViewDesc extends BasePoJo {
     public LayoutParamsDesc params;
     @FieldDesc(key = "padding")
     public PaddingDesc padding;
+    @FieldDesc(key = "onClick")
+    public OnClickDesc onClick;
 
     public ImageViewDesc(String jsonStr) {
         super(jsonStr);
     }
 
     public ImageViewDesc(int id,String color, String url
-            , LayoutParamsDesc layoutParamsDesc, PaddingDesc paddingDesc) {
+            , LayoutParamsDesc layoutParamsDesc, PaddingDesc paddingDesc, OnClickDesc onClick) {
         super(null);
         this.id = id;
         this.url = url;
         this.color = color;
         this.params = layoutParamsDesc;
         this.padding = paddingDesc;
+        this.onClick = onClick;
     }
 }

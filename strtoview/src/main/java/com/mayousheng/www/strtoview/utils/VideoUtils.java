@@ -1,7 +1,6 @@
 package com.mayousheng.www.strtoview.utils;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
@@ -47,23 +46,26 @@ public class VideoUtils {
         result.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {//play finish
-                Log.e("-----1","onCompletion");
+                Log.e("-----1", "onCompletion");
             }
         });
         result.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
-                Log.e("-----1","onError");
+                Log.e("-----1", "onError");
                 return false;
             }
         });
         result.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {//load ok
-                Log.e("-----1","onPrepared");
+                Log.e("-----1", "onPrepared");
                 result.start();
             }
         });
+        if (videoDesc.onClick != null) {
+            result.setOnTouchListener(OnClickUtils.getInstance().getOnClickListener(context, videoDesc.onClick));
+        }
         return result;
     }
 

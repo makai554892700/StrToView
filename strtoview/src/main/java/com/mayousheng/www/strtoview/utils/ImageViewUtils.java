@@ -46,6 +46,9 @@ public class ImageViewUtils {
         if (imageViewDesc.padding != null) {
             imageView.setPadding(imageViewDesc.padding.left, imageViewDesc.padding.top, imageViewDesc.padding.right, imageViewDesc.padding.bottom);
         }
+        if (imageViewDesc.onClick != null) {
+            imageView.setOnTouchListener(OnClickUtils.getInstance().getOnClickListener(context, imageViewDesc.onClick));
+        }
         return imageView;
     }
 

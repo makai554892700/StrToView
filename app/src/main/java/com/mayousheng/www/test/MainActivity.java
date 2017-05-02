@@ -1,40 +1,28 @@
 package com.mayousheng.www.test;
 
 import android.app.Activity;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.StateListDrawable;
-import android.graphics.drawable.shapes.Shape;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
-import com.mayousheng.www.imgcache.cache.DiskLruCache;
 import com.mayousheng.www.strtoview.pojo.ButtonDesc;
 import com.mayousheng.www.strtoview.pojo.ChildDesc;
 import com.mayousheng.www.strtoview.pojo.ImageViewDesc;
 import com.mayousheng.www.strtoview.pojo.LayoutParamsDesc;
 import com.mayousheng.www.strtoview.pojo.LayoutDesc;
-import com.mayousheng.www.strtoview.pojo.MarginsDesc;
+import com.mayousheng.www.strtoview.pojo.OnClickDesc;
 import com.mayousheng.www.strtoview.pojo.RuleDesc;
 import com.mayousheng.www.strtoview.pojo.TextViewDesc;
 import com.mayousheng.www.strtoview.pojo.VideoDesc;
 import com.mayousheng.www.strtoview.utils.CommonViewUtils;
 import com.mayousheng.www.strtoview.utils.DescUtils;
 
-import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import com.mayousheng.www.imgcache.ImageCacheUtils;
@@ -48,9 +36,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         long start = System.currentTimeMillis();
 //        test1();
-//        test2();
+        test2();
 //        test3();
-        test4();
+//        test4();
         Log.e("-----1", "time=" + (System.currentTimeMillis() - start));
     }
 
@@ -62,13 +50,13 @@ public class MainActivity extends Activity {
         ruleDescs.add(new RuleDesc(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE));
         VideoDesc videoDesc = new VideoDesc(0, "http://www.shandao.space/test.mp4"
                 , null, new LayoutParamsDesc(LayoutParamsDesc.TYPE_RELATIVE, RelativeLayout.LayoutParams.WRAP_CONTENT
-                , RelativeLayout.LayoutParams.WRAP_CONTENT, 0, 0, ruleDescs, null));
+                , RelativeLayout.LayoutParams.WRAP_CONTENT, 0, 0, ruleDescs, null), null);
         ArrayList<ChildDesc> rChildDescs = new ArrayList<>();
         rChildDescs.add(new ChildDesc(videoDesc.toString(), ChildDesc.TYPE_VIDEO));
         LayoutDesc layoutDesc1 = new LayoutDesc(0, LayoutDesc.TYPE_RELATIVE, 0, 0
                 , "#ffffffff", new LayoutParamsDesc(LayoutParamsDesc.TYPE_RELATIVE
                 , RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT
-                , 0, 0, null, null), rChildDescs);
+                , 0, 0, null, null), rChildDescs, null);
 
         Log.e("-----1", "layoutDesc1=" + layoutDesc1);
         View bannerView = CommonViewUtils.getInstance().getViewByStr(this, layoutDesc1.toString());
@@ -109,6 +97,7 @@ public class MainActivity extends Activity {
         });
     }
 
+
     public void test2() {
         setContentView(R.layout.activity_main);
         relativeLayout = (RelativeLayout) findViewById(R.id.activity_main);
@@ -121,25 +110,25 @@ public class MainActivity extends Activity {
         ButtonDesc buttonDesc = new ButtonDesc(2, "button", 0, DescUtils.getInstance()
                 .getLayoutParamsDesc(LayoutParamsDesc.TYPE_RELATIVE, RelativeLayout.LayoutParams.WRAP_CONTENT
                         , RelativeLayout.LayoutParams.WRAP_CONTENT, 0, 0, ruleDescs, DescUtils.getInstance()
-                                .getMarginsDesc(0, 0, 40, 0)), null);
+                                .getMarginsDesc(0, 0, 40, 0)), null, null);
         ArrayList<RuleDesc> ruleDescs2 = new ArrayList<RuleDesc>();
         ruleDescs2.add(new RuleDesc(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE));
         ImageViewDesc imageViewDesc = new ImageViewDesc(1, null
                 , "http://inews.gtimg.com/newsapp_bt/0/1467710683/641"
                 , new LayoutParamsDesc(LayoutParamsDesc.TYPE_RELATIVE
                 , 200, 200, 0, 0, ruleDescs2, DescUtils.getInstance()
-                .getMarginsDesc(40, 0, 0, 0)), null);
+                .getMarginsDesc(40, 0, 0, 0)), null, null);
 
         TextViewDesc textViewDesc1 = new TextViewDesc(0, "this is top text"
                 , "#ffffff00", 10, "#ffff00ff", 1, Gravity.CENTER, "END"
                 , new LayoutParamsDesc(LayoutParamsDesc.TYPE_LINEAR
                 , LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT
-                , 0, 1, null, null), null);
+                , 0, 1, null, null), null, null);
         TextViewDesc textViewDesc2 = new TextViewDesc(0, "this is bottom text"
                 , "#ff00ff00", 10, "#ffff0000", 1, Gravity.CENTER, "END"
                 , new LayoutParamsDesc(LayoutParamsDesc.TYPE_LINEAR
                 , LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT
-                , 0, 1, null, null), null);
+                , 0, 1, null, null), null, null);
         ArrayList<ChildDesc> lChildDesc = new ArrayList<>();
         lChildDesc.add(new ChildDesc(textViewDesc1.toString(), ChildDesc.TYPE_TEXT));
         lChildDesc.add(new ChildDesc(textViewDesc2.toString(), ChildDesc.TYPE_TEXT));
@@ -149,16 +138,37 @@ public class MainActivity extends Activity {
         LayoutDesc layoutDesc = new LayoutDesc(0, LayoutDesc.TYPE_LINEAR, 0
                 , LinearLayout.VERTICAL, null, new LayoutParamsDesc(
                 LayoutDesc.TYPE_RELATIVE, RelativeLayout.LayoutParams.MATCH_PARENT
-                , RelativeLayout.LayoutParams.MATCH_PARENT, 0, 0, lRuleDescs, null), lChildDesc);
+                , RelativeLayout.LayoutParams.MATCH_PARENT, 0, 0, lRuleDescs, null), lChildDesc, null);
 
         ArrayList<ChildDesc> rChildDescs = new ArrayList<>();
         rChildDescs.add(new ChildDesc(imageViewDesc.toString(), ChildDesc.TYPE_IMG));
         rChildDescs.add(new ChildDesc(buttonDesc.toString(), ChildDesc.TYPE_BUTTON));
         rChildDescs.add(new ChildDesc(layoutDesc.toString(), ChildDesc.TYPE_LINEAR));
 
+        ButtonDesc buttonDesc1 = new ButtonDesc(0, "click1", 0, new LayoutParamsDesc(LayoutParamsDesc.TYPE_RELATIVE
+                , RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT
+                , 0, 0, null, null), null, null);
+        ButtonDesc buttonDesc2 = new ButtonDesc(0, "click2", 0, new LayoutParamsDesc(LayoutParamsDesc.TYPE_RELATIVE
+                , RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT
+                , 0, 0, null, null), null, null);
+        ArrayList<ChildDesc> rChildDescs1 = new ArrayList<>();
+        rChildDescs1.add(new ChildDesc(buttonDesc1.toString(), ChildDesc.TYPE_BUTTON));
+        rChildDescs1.add(new ChildDesc(buttonDesc2.toString(), ChildDesc.TYPE_BUTTON));
+        LayoutDesc layoutDesc2 = new LayoutDesc(0, LayoutDesc.TYPE_LINEAR, 0, LinearLayout.VERTICAL, "#00000000"
+                , new LayoutParamsDesc(LayoutParamsDesc.TYPE_RELATIVE
+                , RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT
+                , 0, 0, null, null), rChildDescs1, null);
+        ArrayList<ChildDesc> rChildDescs2 = new ArrayList<>();
+        rChildDescs2.add(new ChildDesc(layoutDesc2.toString(), ChildDesc.TYPE_RELATIVE));
+        LayoutDesc layoutDesc3 = new LayoutDesc(0, LayoutDesc.TYPE_RELATIVE, 0, 0, "#55000000"
+                , new LayoutParamsDesc(LayoutParamsDesc.TYPE_RELATIVE
+                , RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT
+                , 0, 0, null, null), rChildDescs2, null);
+
         LayoutDesc layoutDesc1 = new LayoutDesc(0, LayoutDesc.TYPE_RELATIVE, 0, 0
                 , "#ffffffff", new LayoutParamsDesc(LayoutParamsDesc.TYPE_RELATIVE
-                , RelativeLayout.LayoutParams.MATCH_PARENT, 280, 0, 0, null, null), rChildDescs);
+                , RelativeLayout.LayoutParams.MATCH_PARENT, 280, 0, 0, null, null), rChildDescs
+                , new OnClickDesc(OnClickDesc.TYPE_DIALOG, layoutDesc3.toString()));
 
         Log.e("-----1", "layoutDesc1=" + layoutDesc1);
         View bannerView = CommonViewUtils.getInstance().getViewByStr(this, layoutDesc1.toString());
@@ -170,4 +180,3 @@ public class MainActivity extends Activity {
     }
 
 }
-//http://pcad.video.baidu.com/cooper_video_07255138823a0559efc576b8f359af51.mp4

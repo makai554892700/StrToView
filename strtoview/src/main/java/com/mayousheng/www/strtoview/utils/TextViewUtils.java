@@ -60,6 +60,9 @@ public class TextViewUtils {
         if (textViewDesc.padding != null) {
             textView.setPadding(textViewDesc.padding.left, textViewDesc.padding.top, textViewDesc.padding.right, textViewDesc.padding.bottom);
         }
+        if (textViewDesc.onClick != null) {
+            textView.setOnTouchListener(OnClickUtils.getInstance().getOnClickListener(context, textViewDesc.onClick));
+        }
         return textView;
     }
 
