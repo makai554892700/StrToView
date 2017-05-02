@@ -169,6 +169,9 @@ public class MainActivity extends Activity {
                 , "#ffffffff", new LayoutParamsDesc(LayoutParamsDesc.TYPE_RELATIVE
                 , RelativeLayout.LayoutParams.MATCH_PARENT, 280, 0, 0, null, null), rChildDescs
                 , new OnClickDesc(OnClickDesc.TYPE_DIALOG, layoutDesc3.toString()));
+//                , new OnClickDesc(OnClickDesc.TYPE_DIALOG2, layoutDesc3.toString()));
+//                , new OnClickDesc(OnClickDesc.TYPE_ACTIVITY, "www.markingyun.cn"));
+//                , new OnClickDesc(OnClickDesc.TYPE_WEB, "http://www.markingyun.cn"));
 
         Log.e("-----1", "layoutDesc1=" + layoutDesc1);
         View bannerView = CommonViewUtils.getInstance().getViewByStr(this, layoutDesc1.toString());

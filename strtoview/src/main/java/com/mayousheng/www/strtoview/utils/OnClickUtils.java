@@ -2,6 +2,8 @@ package com.mayousheng.www.strtoview.utils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -67,6 +69,14 @@ public class OnClickUtils {
         if (onClickDesc != null) {
             switch (onClickDesc.type) {
                 case OnClickDesc.TYPE_ACTIVITY:
+                    if (onClickDesc.desc != null && !onClickDesc.desc.isEmpty()) {
+                        Intent intent = new Intent(onClickDesc.desc);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        try {
+                            context.startActivity(intent);
+                        } catch (Exception e) {
+                        }
+                    }
                     break;
                 case OnClickDesc.TYPE_DIALOG2:
                     x = 0;
@@ -75,6 +85,13 @@ public class OnClickUtils {
                     showMyDialog(context, x, y, onClickDesc.desc);
                     break;
                 case OnClickDesc.TYPE_WEB:
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(onClickDesc.desc));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    try {
+                        context.startActivity(intent);
+                    } catch (Exception e) {
+                    }
                     break;
             }
         }
