@@ -22,5 +22,5 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':basepojo')
-    compile project(':imgcache')
+    compile project(':filecache')
 }

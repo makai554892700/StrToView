@@ -1,6 +1,7 @@
 package com.yiba.www.filecache;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.yiba.www.filecache.utils.FileUtils;
 import com.yiba.www.filecache.utils.MD5Utils;
@@ -21,7 +22,8 @@ public class FileCache {
     private static final int FAIL_ERROR1 = 1;
     private static final int FAIL_ERROR2 = 2;
     private static final int FAIL_ERROR3 = 3;
-    private static final HashMap<String, ArrayList<CallBack>> loadingFiles = new HashMap<String, ArrayList<CallBack>>();
+    private final HashMap<String, ArrayList<CallBack>> loadingFiles = new HashMap<String, ArrayList<CallBack>>();
+    private File rootFile;
 
     private FileCache() {
     }
@@ -33,23 +35,111 @@ public class FileCache {
         return fileCache;
     }
 
-    public void getFile(Context context, final String url, CallBack callBack) {
-        final String key = getKey(context, url);
+    public void init(Context context) {
+        if (rootFile == null) {
+            rootFile = FileUtils.getInstance().getRootFile(context);
+            SettingUtils.getInstance().init(context);
+        }
+    }
+
+    public String getFilePathNow(String url) {
+        final String key = getKey(url);
+        if (key == null) {
+            return null;
+        }
+        final File tempFile = new File(rootFile, key);
+        if (tempFile.exists() && SettingUtils.getInstance().getBoolean(key)) {
+            return tempFile.getAbsolutePath();
+        } else {
+            while (loadingFiles.containsKey(key)) {
+                try {
+                    Thread.sleep(10);
+                } catch (Exception e) {
+                }
+            }
+            addLoadingFile(key, callBackToCallBacks(new CallBack() {
+                @Override
+                public void onFail(int code) {
+                }
+
+                @Override
+                public void onSucceed(byte[] data, File file) {
+                }
+            }));
+            if (tempFile.exists()) {
+                tempFile.delete();
+            }
+            byte[] result;
+            try {
+                tempFile.createNewFile();
+            } catch (Exception e) {
+                delLoadingFile(key, null, tempFile, FAIL_ERROR1);
+                return null;
+            }
+            result = FileUtils.getInstance().urlToByteSave(tempFile, url);
+            delLoadingFile(key, result, tempFile, FAIL_ERROR1);
+            if (result != null) {
+                return tempFile.getAbsolutePath();
+            }
+        }
+        return null;
+    }
+
+    public byte[] getFileNow(String url) {
+        final String key = getKey(url);
+        if (key == null) {
+            return null;
+        }
+        byte[] result;
+        final File tempFile = new File(rootFile, key);
+        if (tempFile.exists() && SettingUtils.getInstance().getBoolean(key)) {
+            result = FileUtils.getInstance().fileToBytes(tempFile);
+        } else {
+            while (loadingFiles.containsKey(key)) {
+                try {
+                    Thread.sleep(10);
+                } catch (Exception e) {
+                }
+            }
+            addLoadingFile(key, callBackToCallBacks(new CallBack() {
+                @Override
+                public void onFail(int code) {
+                }
+
+                @Override
+                public void onSucceed(byte[] data, File file) {
+                }
+            }));
+            if (tempFile.exists()) {
+                tempFile.delete();
+            }
+            try {
+                tempFile.createNewFile();
+                result = FileUtils.getInstance().urlToByteSave(tempFile, url);
+            } catch (Exception e) {
+                result = null;
+            }
+            delLoadingFile(key, result, tempFile, FAIL_ERROR1);
+        }
+        return result;
+    }
+
+    public void getFile(final String url, CallBack callBack) {
+        final String key = getKey(url);
         if (key == null) {
             if (callBack != null) {
                 callBack.onFail(FAIL_ERROR1);
             }
             return;
         }
-        if (loadingFiles.containsKey(key)) {
-            addLoadingFile(key, callBackToCallBacks(callBack));
+        final File tempFile = new File(rootFile, key);
+        if (tempFile.exists() && SettingUtils.getInstance().getBoolean(key)) {
+            delLoadingFile(key, FileUtils.getInstance().fileToBytes(tempFile), tempFile, FAIL_ERROR3);
         } else {
-            addLoadingFile(key, callBackToCallBacks(callBack));
-            SettingUtils.getInstance().init(context);
-            final File tempFile = new File(FileUtils.getInstance().getRootFile(context), key);
-            if (tempFile.exists() && SettingUtils.getInstance().getBoolean(key)) {
-                delLoadingFile(key, FileUtils.getInstance().fileToBytes(tempFile), tempFile, FAIL_ERROR3);
+            if (loadingFiles.containsKey(key)) {
+                addLoadingFile(key, callBackToCallBacks(callBack));
             } else {
+                addLoadingFile(key, callBackToCallBacks(callBack));
                 if (tempFile.exists()) {
                     tempFile.delete();
                 }
@@ -69,8 +159,8 @@ public class FileCache {
         }
     }
 
-    private String getKey(Context context, String url) {
-        if (context == null || url == null || url.isEmpty() || !url.startsWith(HTTP)) {
+    private String getKey(String url) {
+        if (url == null || url.isEmpty() || !url.startsWith(HTTP)) {
             return null;
         }
         return MD5Utils.getInstance().getMD5(url);

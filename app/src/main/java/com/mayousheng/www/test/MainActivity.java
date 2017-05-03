@@ -25,8 +25,6 @@ import com.mayousheng.www.strtoview.utils.DescUtils;
 
 import java.util.ArrayList;
 
-import com.mayousheng.www.imgcache.ImageCacheUtils;
-
 public class MainActivity extends Activity {
 
     RelativeLayout relativeLayout;
@@ -36,9 +34,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         long start = System.currentTimeMillis();
 //        test1();
-        test2();
+//        test2();
 //        test3();
-//        test4();
+        test4();
         Log.e("-----1", "time=" + (System.currentTimeMillis() - start));
     }
 
@@ -48,6 +46,7 @@ public class MainActivity extends Activity {
 
         ArrayList<RuleDesc> ruleDescs = new ArrayList<RuleDesc>();
         ruleDescs.add(new RuleDesc(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE));
+//        VideoDesc videoDesc = new VideoDesc(0, "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
         VideoDesc videoDesc = new VideoDesc(0, "http://www.shandao.space/test.mp4"
                 , null, new LayoutParamsDesc(LayoutParamsDesc.TYPE_RELATIVE, RelativeLayout.LayoutParams.WRAP_CONTENT
                 , RelativeLayout.LayoutParams.WRAP_CONTENT, 0, 0, ruleDescs, null), null);
@@ -101,7 +100,6 @@ public class MainActivity extends Activity {
     public void test2() {
         setContentView(R.layout.activity_main);
         relativeLayout = (RelativeLayout) findViewById(R.id.activity_main);
-        ImageCacheUtils.getInstance().init(this);
 
         ArrayList<RuleDesc> ruleDescs = new ArrayList<RuleDesc>();
         ruleDescs.add(new RuleDesc(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE));

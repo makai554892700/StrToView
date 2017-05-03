@@ -6,8 +6,6 @@ import android.widget.ImageView;
 
 import com.mayousheng.www.strtoview.pojo.ImageViewDesc;
 
-import com.mayousheng.www.imgcache.ShowImageUtils;
-
 /**
  * Created by marking on 2017/4/27.
  */
@@ -38,7 +36,7 @@ public class ImageViewUtils {
             imageView.setLayoutParams(LayoutParamsUtils.getInstance().getLayoutParams(imageViewDesc.params));
         }
         if (imageViewDesc.url != null && !imageViewDesc.url.isEmpty()) {
-            ShowImageUtils.getInstance().ShowImage(imageView, imageViewDesc.url);
+            ShowImageUtils.getInstance().ShowImage(context, imageView, imageViewDesc.url);
         }
         if (imageViewDesc.color != null && !imageViewDesc.color.isEmpty()) {
             imageView.setBackgroundColor(Color.parseColor(imageViewDesc.color));

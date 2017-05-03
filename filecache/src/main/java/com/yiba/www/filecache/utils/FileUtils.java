@@ -33,12 +33,10 @@ public class FileUtils {
     }
 
     public byte[] fileToBytes(File file) {
-        Log.e("-----1", "fileToBytes");
         return inputStreamToByte(fileToInputStream(file));
     }
 
     public byte[] urlToByteSave(File outFile, String urlStr) {
-        Log.e("-----1", "urlToByteSave");
         OutputStream outputStream = fileOutputStream(outFile);
         if (outputStream == null) {
             return null;
