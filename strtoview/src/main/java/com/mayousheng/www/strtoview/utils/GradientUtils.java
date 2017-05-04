@@ -30,10 +30,16 @@ public class GradientUtils {
         }
         GradientDrawable gradientDrawable = new GradientDrawable();
         if (gradientDesc.fillColor != null && !gradientDesc.fillColor.isEmpty()) {
-            gradientDrawable.setColor(Color.parseColor(gradientDesc.fillColor));
+            try {
+                gradientDrawable.setColor(Color.parseColor(gradientDesc.fillColor));
+            } catch (Exception e) {
+            }
         }
         if (gradientDesc.strokeColor != null && !gradientDesc.strokeColor.isEmpty()) {
-            gradientDrawable.setStroke(gradientDesc.strokeWidth, Color.parseColor(gradientDesc.strokeColor));
+            try {
+                gradientDrawable.setStroke(gradientDesc.strokeWidth, Color.parseColor(gradientDesc.strokeColor));
+            } catch (Exception e) {
+            }
         }
         if (gradientDesc.roundRadius != 0) {
             gradientDrawable.setCornerRadius(gradientDesc.roundRadius);

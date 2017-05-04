@@ -43,7 +43,10 @@ public class CommonViewUtils {
                 view.setId(baseViewDesc.id);
             }
             if (baseViewDesc.backColor != null && !baseViewDesc.backColor.isEmpty()) {
-                view.setBackgroundColor(Color.parseColor(baseViewDesc.backColor));
+                try {
+                    view.setBackgroundColor(Color.parseColor(baseViewDesc.backColor));
+                } catch (Exception e) {
+                }
             }
             if (baseViewDesc.params != null) {
                 view.setLayoutParams(LayoutParamsUtils.getInstance().getLayoutParams(baseViewDesc.params));

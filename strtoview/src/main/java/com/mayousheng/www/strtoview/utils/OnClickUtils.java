@@ -43,7 +43,8 @@ public class OnClickUtils {
 
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    return mGestureDetector.onTouchEvent(event);
+                    mGestureDetector.onTouchEvent(event);
+                    return false;
                 }
             };
         }

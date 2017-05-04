@@ -53,7 +53,10 @@ public class TextButtonUtils {
             t.setGravity(textViewDesc.gravity);
         }
         if (textViewDesc.textColor != null && !textViewDesc.textColor.isEmpty()) {
-            t.setTextColor(Color.parseColor(textViewDesc.textColor));
+            try {
+                t.setTextColor(Color.parseColor(textViewDesc.textColor));
+            } catch (Exception e) {
+            }
         }
         if (textViewDesc.stateListDesc != null) {
             t.setBackgroundDrawable(StateListUtils.getInstance().getStateListDrawable(context, textViewDesc.stateListDesc));
