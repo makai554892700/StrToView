@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.view.WindowManager;
 import com.mayousheng.www.strtoview.pojo.LayoutDesc;
 import com.mayousheng.www.strtoview.pojo.OnClickDesc;
 import com.shandao.www.strtoview.R;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by marking on 2017/5/2.
@@ -34,38 +37,20 @@ public class OnClickUtils {
 
     public View.OnTouchListener getOnClickListener(final Context context, final OnClickDesc onClickDesc) {
         if (onClickDesc != null) {
+            final GestureDetector mGestureDetector = new GestureDetector(context
+                    , new MyOnGestureListener(context, onClickDesc));
             return new View.OnTouchListener() {
-                private int downX;
-                private int downY;
-                private long downTime;
 
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    int action = event.getAction();
-                    switch (action) {
-                        case MotionEvent.ACTION_DOWN:
-                            downX = (int) event.getX();
-                            downY = (int) event.getY();
-                            downTime = System.currentTimeMillis();
-                            break;
-                        case MotionEvent.ACTION_UP:
-                            int x = (int) event.getX();
-                            int y = (int) event.getY();
-                            if (System.currentTimeMillis() - downTime < 1000
-                                    && Math.abs(x - downX) < 10
-                                    && Math.abs(y - downY) < 10) {
-                                onClick(context, onClickDesc, x, y);
-                            }
-                            break;
-                    }
-                    return true;
+                    return mGestureDetector.onTouchEvent(event);
                 }
             };
         }
         return null;
     }
 
-    public void onClick(Context context, OnClickDesc onClickDesc, int x, int y) {
+    private void onClick(Context context, OnClickDesc onClickDesc, int x, int y) {
         if (onClickDesc != null) {
             switch (onClickDesc.type) {
                 case OnClickDesc.TYPE_ACTIVITY:
@@ -97,8 +82,7 @@ public class OnClickUtils {
         }
     }
 
-
-    public void showMyDialog(Context context, int x, int y, String desc) {
+    private void showMyDialog(Context context, int x, int y, String desc) {
         if (desc == null || desc.isEmpty()) {
             return;
         }
@@ -141,6 +125,38 @@ public class OnClickUtils {
             }
         });
         dialog.show();
+    }
+
+    private class MyOnGestureListener extends GestureDetector.SimpleOnGestureListener {
+        private Context context;
+        private OnClickDesc onClickDesc;
+
+        public MyOnGestureListener(Context context, OnClickDesc onClickDesc) {
+            this.context = context;
+            this.onClickDesc = onClickDesc;
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            onClick(context, onClickDesc, (int) e.getRawX(), (int) e.getRawY() - getStatusBarHeight(context));
+            return super.onSingleTapUp(e);
+        }
+    }
+
+    private int getStatusBarHeight(Context context) {
+        Class<?> c = null;
+        Object obj = null;
+        Field field = null;
+        int x, statusBarHeight = 0;
+        try {
+            c = Class.forName("com.android.internal.R$dimen");
+            obj = c.newInstance();
+            field = c.getField("status_bar_height");
+            x = Integer.parseInt(field.get(obj).toString());
+            statusBarHeight = context.getResources().getDimensionPixelSize(x);
+        } catch (Exception e1) {
+        }
+        return statusBarHeight;
     }
 
 }

@@ -29,23 +29,9 @@ public class ImageViewUtils {
             return null;
         }
         ImageView imageView = new ImageView(context);
-        if (imageViewDesc.id != 0) {
-            imageView.setId(imageViewDesc.id);
-        }
-        if (imageViewDesc.params != null) {
-            imageView.setLayoutParams(LayoutParamsUtils.getInstance().getLayoutParams(imageViewDesc.params));
-        }
+        imageView = CommonViewUtils.getInstance().updateView(context, imageView, imageViewDesc);
         if (imageViewDesc.url != null && !imageViewDesc.url.isEmpty()) {
             ShowImageUtils.getInstance().ShowImage(context, imageView, imageViewDesc.url);
-        }
-        if (imageViewDesc.color != null && !imageViewDesc.color.isEmpty()) {
-            imageView.setBackgroundColor(Color.parseColor(imageViewDesc.color));
-        }
-        if (imageViewDesc.padding != null) {
-            imageView.setPadding(imageViewDesc.padding.left, imageViewDesc.padding.top, imageViewDesc.padding.right, imageViewDesc.padding.bottom);
-        }
-        if (imageViewDesc.onClick != null) {
-            imageView.setOnTouchListener(OnClickUtils.getInstance().getOnClickListener(context, imageViewDesc.onClick));
         }
         return imageView;
     }

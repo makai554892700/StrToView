@@ -40,15 +40,7 @@ public class LayoutUtils {
         switch (layoutDesc.type) {
             case LayoutDesc.TYPE_FRAME:
                 FrameLayout frameLayout = new FrameLayout(context);
-                if (layoutDesc.id != 0) {
-                    frameLayout.setId(layoutDesc.id);
-                }
-                if (layoutDesc.params != null) {
-                    frameLayout.setLayoutParams(LayoutParamsUtils.getInstance().getLayoutParams(layoutDesc.params));
-                }
-                if (layoutDesc.color != null && !layoutDesc.color.isEmpty()) {
-                    frameLayout.setBackgroundColor(Color.parseColor(layoutDesc.color));
-                }
+                frameLayout = CommonViewUtils.getInstance().updateView(context, frameLayout, layoutDesc);
                 if (layoutDesc.children != null) {
                     for (ChildDesc child : layoutDesc.children) {
                         View childView = getChildByDesc(context, child);
@@ -57,23 +49,12 @@ public class LayoutUtils {
                         }
                     }
                 }
-                if (layoutDesc.onClick != null) {
-                    frameLayout.setOnTouchListener(OnClickUtils.getInstance().getOnClickListener(context, layoutDesc.onClick));
-                }
                 return frameLayout;
             case LayoutDesc.TYPE_RELATIVE:
                 RelativeLayout relativeLayout = new RelativeLayout(context);
-                if (layoutDesc.id != 0) {
-                    relativeLayout.setId(layoutDesc.id);
-                }
+                relativeLayout = CommonViewUtils.getInstance().updateView(context, relativeLayout, layoutDesc);
                 if (layoutDesc.gravity != 0) {
                     relativeLayout.setGravity(layoutDesc.gravity);
-                }
-                if (layoutDesc.params != null) {
-                    relativeLayout.setLayoutParams(LayoutParamsUtils.getInstance().getLayoutParams(layoutDesc.params));
-                }
-                if (layoutDesc.color != null && !layoutDesc.color.isEmpty()) {
-                    relativeLayout.setBackgroundColor(Color.parseColor(layoutDesc.color));
                 }
                 if (layoutDesc.children != null) {
                     for (ChildDesc child : layoutDesc.children) {
@@ -83,24 +64,13 @@ public class LayoutUtils {
                         }
                     }
                 }
-                if (layoutDesc.onClick != null) {
-                    relativeLayout.setOnTouchListener(OnClickUtils.getInstance().getOnClickListener(context, layoutDesc.onClick));
-                }
                 return relativeLayout;
             case LayoutDesc.TYPE_LINEAR:
                 LinearLayout linearLayout = new LinearLayout(context);
+                linearLayout = CommonViewUtils.getInstance().updateView(context, linearLayout, layoutDesc);
                 linearLayout.setOrientation(layoutDesc.orientation);
-                if (layoutDesc.id != 0) {
-                    linearLayout.setId(layoutDesc.id);
-                }
                 if (layoutDesc.gravity != 0) {
                     linearLayout.setGravity(layoutDesc.gravity);
-                }
-                if (layoutDesc.params != null) {
-                    linearLayout.setLayoutParams(LayoutParamsUtils.getInstance().getLayoutParams(layoutDesc.params));
-                }
-                if (layoutDesc.color != null && !layoutDesc.color.isEmpty()) {
-                    linearLayout.setBackgroundColor(Color.parseColor(layoutDesc.color));
                 }
                 if (layoutDesc.children != null) {
                     for (ChildDesc child : layoutDesc.children) {
@@ -109,9 +79,6 @@ public class LayoutUtils {
                             linearLayout.addView(childView);
                         }
                     }
-                }
-                if (layoutDesc.onClick != null) {
-                    linearLayout.setOnTouchListener(OnClickUtils.getInstance().getOnClickListener(context, layoutDesc.onClick));
                 }
                 return linearLayout;
         }

@@ -28,7 +28,7 @@ public abstract class BasePoJo {
             return;
         }
         Class self = this.getClass();
-        Field[] fields = self.getDeclaredFields();
+        Field[] fields = self.getFields();
         if (fields == null) {
             return;
         }
@@ -184,7 +184,7 @@ public abstract class BasePoJo {
     public JSONObject toJSONObject() {
         JSONObject result = new JSONObject();
         Class self = this.getClass();
-        Field[] fields = self.getDeclaredFields();
+        Field[] fields = self.getFields();
         if (fields == null) {
             return result;
         }

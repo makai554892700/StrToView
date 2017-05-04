@@ -29,20 +29,9 @@ public class VideoUtils {
         if (context == null || videoDesc == null || videoDesc.url == null || !videoDesc.url.startsWith(HTTP)) {
             return null;
         }
-        final VideoView result = new VideoView(context);
-        if (videoDesc.id != 0) {
-            result.setId(videoDesc.id);
-        }
-        if (videoDesc.params != null) {
-            result.setLayoutParams(LayoutParamsUtils.getInstance().getLayoutParams(videoDesc.params));
-        }
-        if (videoDesc.padding != null) {
-            result.setPadding(videoDesc.padding.left, videoDesc.padding.top, videoDesc.padding.right, videoDesc.padding.bottom);
-        }
+        VideoView result = new VideoView(context);
+        result = CommonViewUtils.getInstance().updateView(context, result, videoDesc);
         PlayVideoUtils.getInstance().playVideo(context, result, videoDesc.url);
-        if (videoDesc.onClick != null) {
-            result.setOnTouchListener(OnClickUtils.getInstance().getOnClickListener(context, videoDesc.onClick));
-        }
         return result;
     }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.text.TextUtils;
 import android.widget.Button;
 
 import com.mayousheng.www.strtoview.pojo.ButtonDesc;
@@ -27,26 +28,7 @@ public class ButtonUtils {
     }
 
     public Button getButton(Context context, ButtonDesc buttonDesc) {
-        if (context == null || buttonDesc == null) {
-            return null;
-        }
-        Button button = new Button(context);
-        if (buttonDesc.id != 0) {
-            button.setId(buttonDesc.id);
-        }
-        if (buttonDesc.text != null) {
-            button.setText(buttonDesc.text);
-        }
-        if (buttonDesc.params != null) {
-            button.setLayoutParams(LayoutParamsUtils.getInstance().getLayoutParams(buttonDesc.params));
-        }
-        if (buttonDesc.padding != null) {
-            button.setPadding(buttonDesc.padding.left, buttonDesc.padding.top, buttonDesc.padding.right, buttonDesc.padding.bottom);
-        }
-        if (buttonDesc.onClick != null) {
-            button.setOnTouchListener(OnClickUtils.getInstance().getOnClickListener(context, buttonDesc.onClick));
-        }
-        return button;
+        return TextButtonUtils.getInstance().getButton(context, buttonDesc);
     }
 
 }

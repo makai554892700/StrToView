@@ -26,44 +26,7 @@ public class TextViewUtils {
     }
 
     public TextView getTextView(Context context, TextViewDesc textViewDesc) {
-        if (context == null || textViewDesc == null) {
-            return null;
-        }
-        TextView textView = new TextView(context);
-        if (textViewDesc.id != 0) {
-            textView.setId(textViewDesc.id);
-        }
-        if (textViewDesc.text != null) {
-            textView.setText(textViewDesc.text);
-        }
-        if (textViewDesc.color != null && !textViewDesc.color.isEmpty()) {
-            textView.setTextColor(Color.parseColor(textViewDesc.color));
-        }
-        if (textViewDesc.backColor != null && !textViewDesc.backColor.isEmpty()) {
-            textView.setBackgroundColor(Color.parseColor(textViewDesc.backColor));
-        }
-        if (textViewDesc.size != 0) {
-            textView.setTextSize(textViewDesc.size);
-        }
-        if (textViewDesc.params != null) {
-            textView.setLayoutParams(LayoutParamsUtils.getInstance().getLayoutParams(textViewDesc.params));
-        }
-        if (textViewDesc.maxLine != 0) {
-            textView.setMaxLines(textViewDesc.maxLine);
-        }
-        if (textViewDesc.ellipsize != null && !textViewDesc.ellipsize.isEmpty()) {
-            textView.setEllipsize(TextUtils.TruncateAt.valueOf(textViewDesc.ellipsize));
-        }
-        if (textViewDesc.gravity != 0) {
-            textView.setGravity(textViewDesc.gravity);
-        }
-        if (textViewDesc.padding != null) {
-            textView.setPadding(textViewDesc.padding.left, textViewDesc.padding.top, textViewDesc.padding.right, textViewDesc.padding.bottom);
-        }
-        if (textViewDesc.onClick != null) {
-            textView.setOnTouchListener(OnClickUtils.getInstance().getOnClickListener(context, textViewDesc.onClick));
-        }
-        return textView;
+        return TextButtonUtils.getInstance().getTextView(context, textViewDesc);
     }
 
 }
