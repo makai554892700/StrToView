@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
@@ -23,6 +25,7 @@ import com.mayousheng.www.strtoview.pojo.RuleDesc;
 import com.mayousheng.www.strtoview.pojo.StateListDesc;
 import com.mayousheng.www.strtoview.pojo.TextViewDesc;
 import com.mayousheng.www.strtoview.pojo.VideoDesc;
+import com.mayousheng.www.strtoview.pojo.WebViewDesc;
 import com.mayousheng.www.strtoview.utils.CommonViewUtils;
 
 import java.util.ArrayList;
@@ -36,10 +39,55 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         long start = System.currentTimeMillis();
 //        test1();
-        test2();
+//        test2();
 //        test3();
 //        test4();
+//        test5();
+        test6();
         Log.e("-----1", "time=" + (System.currentTimeMillis() - start));
+    }
+
+    private void test6() {
+        setContentView(R.layout.activity_main);
+        relativeLayout = (RelativeLayout) findViewById(R.id.activity_main);
+
+        WebViewDesc webViewDesc = new WebViewDesc(null);
+        webViewDesc.url = "http://m.baidu.com";
+        LayoutParamsDesc webLayoutParamsDesc = new LayoutParamsDesc(null);
+        webLayoutParamsDesc.type = LayoutParamsDesc.TYPE_RELATIVE;
+        webLayoutParamsDesc.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        webLayoutParamsDesc.height = 480;
+        ArrayList<RuleDesc> ruleDescs = new ArrayList<RuleDesc>();
+        ruleDescs.add(new RuleDesc(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE));
+        webLayoutParamsDesc.rules = ruleDescs;
+        webViewDesc.params = webLayoutParamsDesc;
+        ArrayList<ChildDesc> rChildDescs = new ArrayList<>();
+        rChildDescs.add(new ChildDesc(webViewDesc.toString(), ChildDesc.TYPE_WEB));
+        LayoutDesc layoutDesc1 = new LayoutDesc(null);
+        layoutDesc1.type = LayoutDesc.TYPE_RELATIVE;
+        layoutDesc1.backColor = "#ffffffff";
+        LayoutParamsDesc layoutLayoutParamsDesc = new LayoutParamsDesc(null);
+        layoutLayoutParamsDesc.type = LayoutParamsDesc.TYPE_RELATIVE;
+        layoutLayoutParamsDesc.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        layoutLayoutParamsDesc.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+        layoutDesc1.params = layoutLayoutParamsDesc;
+        layoutDesc1.children = rChildDescs;
+        Log.e("-----1", "layoutDesc1=" + layoutDesc1);
+        View bannerView = CommonViewUtils.getInstance().getViewByStr(this, layoutDesc1.toString());
+        relativeLayout.addView(bannerView);
+    }
+
+    private void test5() {
+        setContentView(R.layout.item_web);
+        WebView webView = (WebView) findViewById(R.id.webView);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl("http://m.baidu.com");
+        webView.setWebViewClient(new WebViewClient() {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
     }
 
     public void test4() {

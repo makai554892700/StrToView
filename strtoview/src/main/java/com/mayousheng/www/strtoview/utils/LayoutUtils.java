@@ -14,6 +14,7 @@ import com.mayousheng.www.strtoview.pojo.ImageViewDesc;
 import com.mayousheng.www.strtoview.pojo.LayoutDesc;
 import com.mayousheng.www.strtoview.pojo.TextViewDesc;
 import com.mayousheng.www.strtoview.pojo.VideoDesc;
+import com.mayousheng.www.strtoview.pojo.WebViewDesc;
 
 /**
  * Created by marking on 2017/4/27.
@@ -112,6 +113,10 @@ public class LayoutUtils {
             case ChildDesc.TYPE_VIDEO:
                 VideoDesc videoDesc = new VideoDesc(child.str);
                 result = VideoUtils.getInstance().getVideoView(context, videoDesc);
+                break;
+            case ChildDesc.TYPE_WEB:
+                WebViewDesc webViewDesc = new WebViewDesc(child.str);
+                result = WebViewUtils.getInstance().getWebView(context, webViewDesc);
                 break;
         }
         return result;
